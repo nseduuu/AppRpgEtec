@@ -54,6 +54,11 @@
         
     </FlyoutItem>
 
-    <ShellContent Title="Sair" Icon="Exit.png" ContentTemplate="{DataTemplate viewsUsuarios:LoginView}"/>
+    <ShellContent Title="Sair" Icon="exit.svg" ContentTemplate="{DataTemplate viewsUsuarios:LoginView}"
+                  Shell.FlyoutBehavior="Disabled"/>
+
+    <Shell.FlyoutFooter>
+        <Label x:Name="lblLogin" TextColor="Black" FontAttributes="Bold" HorizontalOptions="Center" />
+    </Shell.FlyoutFooter>
 
 </Shell>
