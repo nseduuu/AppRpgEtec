@@ -39,11 +39,13 @@ namespace AppRpgEtec.Services.Armas
         {
             return await _request.PostReturnIntAsync(ApiUrlBase, a, _token);
         }
+
         public async Task<int> PutArmaAsync(Arma a)
         {
             var result = await _request.PutAsync(ApiUrlBase, a, _token);
             return result;
         }
+
         public async Task<int> DeleteArmaAsync(int ArmaId)
         {
             string urlComplementar = string.Format("/{0}", ArmaId);

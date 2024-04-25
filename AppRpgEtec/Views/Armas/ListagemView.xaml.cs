@@ -13,6 +13,7 @@ public partial class ListagemView : ContentPage
 
         viewModel = new ListagemArmaViewModel();
         BindingContext = viewModel;
-        Title = "Armas - App Rpg Etec";
+        Title = "Nova Arma";
+
     }
 }
