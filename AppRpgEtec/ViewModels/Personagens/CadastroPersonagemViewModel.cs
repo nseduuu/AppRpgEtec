@@ -6,6 +6,9 @@ using System.Windows.Input;
 
 namespace AppRpgEtec.ViewModels.Personagens
 {
+
+    [QueryProperty("PersonagemSelecionadoId", "pId")]
+
     public class CadastroPersonagemViewModel : BaseViewModel
     {
         private PersonagemService pService;
@@ -34,6 +37,7 @@ namespace AppRpgEtec.ViewModels.Personagens
         private int derrotas;
         private ObservableCollection<TipoClasse> listaTiposClasse;
         private TipoClasse tipoClasseSelecionado;
+        private string personagemSelecionadoId;
 
 
         public int Id 
@@ -116,6 +120,21 @@ namespace AppRpgEtec.ViewModels.Personagens
                 OnPropertyChanged(nameof(Derrotas)); 
             } 
         }
+
+        public string PersonagemSelecionadoId
+        {
+            get => PersonagemSelecionadoId;
+            set
+            {
+                if (value != null)
+                {
+                    personagemSelecionadoId = Uri.UnescapeDataString(value);
+                    CarregarPersonagem();
+                }
+
+            }
+        }
+
         public ObservableCollection<TipoClasse> ListaTiposClasse
         {
             get { return listaTiposClasse; }
@@ -141,7 +160,9 @@ namespace AppRpgEtec.ViewModels.Personagens
                 }
             }
         }
+        #endregion
 
+        #region methods
         public async Task ObterClasses()
         {
             try
@@ -182,6 +203,8 @@ namespace AppRpgEtec.ViewModels.Personagens
                 };
                 if (model.Id == 0)
                     await pService.PostPersonagemAsync(model);
+                else
+                    await pService.PutPersonagemAsync(model); 
 
                 await Application.Current.MainPage.DisplayAlert("Mensagem", "Dados salvos com sucesso!", "OK");
 
@@ -193,12 +216,33 @@ namespace AppRpgEtec.ViewModels.Personagens
             }
         }
 
+        public async void CarregarPersonagem() 
+        {
+            try 
+            {
+                Personagem p = await pService.GetPersonagemAsync(int.Parse(PersonagemSelecionadoId));
+
+                Nome = p.Nome;
+                PontosVida = p.PontosVida;
+                Defesa = p.Defesa;
+                Derrotas = p.Derrotas;
+                Disputas = p.Disputas;
+                Forca = p.Forca;
+                Inteligencia = p.Inteligencia;
+                Vitorias = p.Vitorias;
+                Id = p.Id;
+
+            }
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert("Ops", ex.Message + "Detalhes: " + ex.InnerException, "Ok");
+            }
+        }
+
         private async void CancelarCadastro() 
         {
             await Shell.Current.GoToAsync("..");
         }
-
         #endregion
-
     }
 }
