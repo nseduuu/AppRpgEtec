@@ -1,18 +1,11 @@
 ﻿using AppRpgEtec.Models;
 using AppRpgEtec.Services.Usuarios;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace AppRpgEtec.ViewModels.Usuarios
 {
     public class UsuarioViewModel : BaseViewModel
     {
-       
-
         //ctor + TAB + TAB: Atalho para criar o construtor
         public UsuarioViewModel()
         {
@@ -58,9 +51,15 @@ namespace AppRpgEtec.ViewModels.Usuarios
         }
         #endregion
 
+
         #region Metodos
+
+        private CancellationTokenSource _cancelTokenSource;
+        private bool _isCheckingLocation;
+
         public async Task AutenticarUsuario()//Método para autenticar um usuário     
         {
+
             try
             {
                 Usuario u = new Usuario();
@@ -68,6 +67,21 @@ namespace AppRpgEtec.ViewModels.Usuarios
                 u.PasswordString = Senha;
 
                 Usuario uAutenticado = await uService.PostAutenticarUsuarioAsync(u);
+
+                _isCheckingLocation = true;
+                _cancelTokenSource = new CancellationTokenSource();
+                GeolocationRequest request =
+                    new GeolocationRequest(GeolocationAccuracy.Medium, TimeSpan.FromSeconds(10));
+
+                Location location = await Geolocation.Default.GetLocationAsync(request, _cancelTokenSource.Token);
+
+                Usuario uLoc = new Usuario();
+                uLoc.Id = uAutenticado.Id;
+                uLoc.Latitude = location.Latitude;
+                uLoc.Longitude = location.Latitude;
+
+                UsuarioService uServiceLoc = new UsuarioService(uAutenticado.Token);
+                await uServiceLoc.PutAtualizarLocalizacaoAsync(uLoc);
 
                 if (!string.IsNullOrEmpty(uAutenticado.Token))
                 {
