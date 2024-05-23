@@ -14,12 +14,12 @@
 
     <ContentPage.Content>
         <VerticalStackLayout 
-            Padding="25" Spacing="30">
+            Padding="25" Spacing="35">
 
             <Frame
                 BackgroundColor="{StaticResource MainColor}"
                 HeightRequest="{OnPlatform Android=190, iOS=220}"
-                Padding="0" HasShadow="false" CornerRadius="10">
+                Padding="10" HasShadow="false" CornerRadius="10">
 
                 <Grid>
                     <Image Source="dotnet_bot.svg"/>
@@ -39,11 +39,11 @@
             <ScrollView Orientation="Horizontal">
 
                 <HorizontalStackLayout>
-                    <Frame Style="{StaticResource FrameOptions}" Padding="0"
+                    <Frame Style="{StaticResource FrameOptions}" Padding="10"
                            HeightRequest="{OnPlatform Android=150, iOS=140}"
                            WidthRequest="{OnPlatform Android=120, iOS=140}">
-                        
-                        <VerticalStackLayout Spacing="0" VerticalOptions="Center">
+
+                        <VerticalStackLayout Spacing="30" VerticalOptions="Center">
                             <Image Source="menupersonagens.svg"/>
                             <Label Text="Personagens" FontSize="Small"
                                    HorizontalTextAlignment="Center" Margin="10,0"/>
@@ -55,7 +55,7 @@
 
                     </Frame>
 
-                    <Frame Style="{StaticResource FrameOptions}" Padding="0"
+                    <Frame Style="{StaticResource FrameOptions}" Padding="10"
                            HeightRequest="{OnPlatform Android=150, iOS=140}"
                            WidthRequest="{OnPlatform Android=120, iOS=140}">
 
@@ -69,7 +69,7 @@
                            HeightRequest="{OnPlatform Android=150, iOS=140}"
                            WidthRequest="{OnPlatform Android=120, iOS=140}">
 
-                        <VerticalStackLayout Spacing="0" VerticalOptions="Center">
+                        <VerticalStackLayout Spacing="30" VerticalOptions="Center">
                             <Image Source="menudisputas.png"/>
                             <Label Text="Disputas" FontSize="Small" HorizontalTextAlignment="Center" Margin="10,0"/>
                         </VerticalStackLayout>
@@ -82,12 +82,12 @@
                 </HorizontalStackLayout>
 
             </ScrollView>
-
+            
             <HorizontalStackLayout Margin="10,100">
                 <Image Source="exit.svg" WidthRequest="50"/>
                 <Label Text="Sair" Margin="10,0,0,0" VerticalTextAlignment="Center" />
             </HorizontalStackLayout>
-
+            
         </VerticalStackLayout>
 
     </ContentPage.Content>

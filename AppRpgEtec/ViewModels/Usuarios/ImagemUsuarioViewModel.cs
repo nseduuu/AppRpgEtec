@@ -81,9 +81,9 @@ namespace AppRpgEtec.ViewModels.Usuarios
             }
         }
 
-        public async void SalvarImagemAzure() 
+        public async void SalvarImagemAzure()
         {
-            try 
+            try
             {
                 Usuario u = new Usuario();
                 u.Foto = foto;
@@ -92,22 +92,22 @@ namespace AppRpgEtec.ViewModels.Usuarios
                 string fileName = $"{u.Id}.jpg";
 
                 var blobClient = new BlobClient(conexaoAzureStorage, container, fileName);
-
                 if (blobClient.Exists())
                     blobClient.Delete();
 
-                using (var stream = new MemoryStream(u.Foto)) 
+                using (var stream = new MemoryStream(u.Foto))
                 {
                     blobClient.Upload(stream);
                 }
 
-                await Application.Current.MainPage.DisplayAlert("Ops", " Detalhes: ", "Ok");
+                await Application.Current.MainPage.DisplayAlert("Mensagem", "Dados salvos com sucesso!", "Ok");
                 await App.Current.MainPage.Navigation.PopAsync();
 
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
-                await Application.Current.MainPage.DisplayAlert("Ops", ex.Message + " Detalhes: " + ex.InnerException, "Ok");
+                await Application.Current.MainPage
+                        .DisplayAlert("Ops", ex.Message + "Detalhes: " + ex.InnerException, "Ok");
             }
         }
 
