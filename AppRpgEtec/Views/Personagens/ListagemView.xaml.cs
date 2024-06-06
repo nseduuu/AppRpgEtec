@@ -1,3 +1,4 @@
+using AppRpgEtec.Models;
 using AppRpgEtec.ViewModels.Personagens;
 
 namespace AppRpgEtec.Views.Personagens;
