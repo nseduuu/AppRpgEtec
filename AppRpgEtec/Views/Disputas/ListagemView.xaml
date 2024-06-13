@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="AppRpgEtec.Views.Disputas.ListagemView"
              Title="ListagemView">
+
     <VerticalStackLayout>
         <SearchBar x:Name="searchBar" HeightRequest="25" Placeholder="Digite o nome do Personagem..."
             TextColor="Black" SearchCommand="{Binding PesquisarPersonagensCommand}"

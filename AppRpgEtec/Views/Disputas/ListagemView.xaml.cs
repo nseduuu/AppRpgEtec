@@ -4,14 +4,12 @@ namespace AppRpgEtec.Views.Disputas;
 
 public partial class ListagemView : ContentPage
 {
-	public ListagemView()
-	{
-		DisputaViewModel viewModel;
+    DisputaViewModel viewModel;
+    public ListagemView()
+    {
+        InitializeComponent();
 
-		InitializeComponent();
-
-		viewModel = new DisputaViewModel();
-		BindingContext = viewModel;
-
-	}
+        viewModel = new DisputaViewModel();
+        BindingContext = viewModel;
+    }
 }

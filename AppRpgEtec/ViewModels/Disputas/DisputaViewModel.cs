@@ -15,7 +15,7 @@ namespace AppRpgEtec.ViewModels.Disputas
         public Personagem Atacante { get; set; }
         public Personagem Oponente { get; set; }
 
-        private DisputaService _dService;
+        private DisputaService _disputaService;
         public Disputa DisputaPersonagens { get; set; }
 
         private PersonagemHabilidadeService _personagemHabilidadeService;
@@ -25,7 +25,7 @@ namespace AppRpgEtec.ViewModels.Disputas
         {
             string token = Preferences.Get("UsuarioToken", string.Empty);
             _personagemService = new PersonagemService(token);
-            _dService = new DisputaService(token);
+            _disputaService = new DisputaService(token);
             _personagemHabilidadeService = new PersonagemHabilidadeService(token);
 
             Atacante = new Personagem();
@@ -36,7 +36,7 @@ namespace AppRpgEtec.ViewModels.Disputas
             PesquisarPersonagensCommand = new Command<string>(async (string pesquisa) => { await PesquisarPersonagens(pesquisa); });
             DisputaComArmaCommand = new Command(async () => { await ExecutarDisputaArmada(); });
             DisputaComHabilidadeCommand = new Command(async () => { await ExecutarDisputaHabilidade(); });
-            DisputaGeralCommand = new Command(async () => { await ExecutarDisputaArmada(); });
+            DisputaGeralCommand = new Command(async () => { await ExecutarDisputaGeral(); });
         }
 
         #region Commands
@@ -101,7 +101,29 @@ namespace AppRpgEtec.ViewModels.Disputas
                 {
                     try
                     {
+                        habilidadeSelecionada = value;
+                        OnPropertyChanged(nameof(HabilidadeSelecionada));
+                    }
+                    catch (Exception ex)
+                    {
+                        Application.Current.MainPage.DisplayAlert("Ops", ex.Message, "Ok");
+                    }
+                }
+            }
+        }
 
+        private PersonagemHabilidade habilidadesEncontradas;
+        public PersonagemHabilidade HabilidadesEncontradas
+        {
+            get { return habilidadesEncontradas; }
+            set
+            {
+                if (value != null)
+                {
+                    try
+                    {
+                        habilidadesEncontradas= value;
+                        OnPropertyChanged(nameof(HabilidadesEncontradas));
                     }
                     catch (Exception ex)
                     {
@@ -159,8 +181,8 @@ namespace AppRpgEtec.ViewModels.Disputas
             try
             {
                 DisputaPersonagens.AtacanteId = Atacante.Id;
-                DisputaPersonagens.OponeteId = Oponente.Id;
-                DisputaPersonagens = await _dService.PostDisputaComArmaAsync(DisputaPersonagens);
+                DisputaPersonagens.OponenteId = Oponente.Id;
+                DisputaPersonagens = await _disputaService.PostDisputaComArmaAsync(DisputaPersonagens);
 
                 await Application.Current.MainPage
                          .DisplayAlert("Resultado", DisputaPersonagens.Narracao, "Ok");
@@ -177,7 +199,7 @@ namespace AppRpgEtec.ViewModels.Disputas
             try
             {
                 Habilidades = await _personagemHabilidadeService.GetPersonagemHabilidadesAsync(personagemId);
-                OnPropertyChanged(nameof(Habilidade));
+                OnPropertyChanged(nameof(Habilidades));
             }
             catch (Exception ex)
             {
@@ -190,10 +212,10 @@ namespace AppRpgEtec.ViewModels.Disputas
         {
             try
             {
-                DisputaPersonagens.HabilidadeId = HabilidadeSelecionada.HabilidadeId;
                 DisputaPersonagens.AtacanteId = Atacante.Id;
-                DisputaPersonagens.OponeteId = Oponente.Id;
-                DisputaPersonagens = await _dService.PostDisputaComHabilidadesAsync(DisputaPersonagens);
+                DisputaPersonagens.OponenteId = Oponente.Id;
+                DisputaPersonagens.HabilidadeId = habilidadeSelecionada.HabilidadeId;
+                DisputaPersonagens = await _disputaService.PostDisputaComHabilidadesAsync(DisputaPersonagens);
 
                 await Application.Current.MainPage
                          .DisplayAlert("Resultado", DisputaPersonagens.Narracao, "Ok");
@@ -210,9 +232,9 @@ namespace AppRpgEtec.ViewModels.Disputas
             try
             {
                 ObservableCollection<Personagem> lista = await _personagemService.GetPersonagensAsync();
-                DisputaPersonagens.ListaIdPersonagem = lista.Select(x => x.Id).ToList();
+                DisputaPersonagens.ListaIdPersonagens = lista.Select(x => x.Id).ToList();
 
-                DisputaPersonagens = await _dService.PostDisputaGeralAsync(DisputaPersonagens);
+                DisputaPersonagens = await _disputaService.PostDisputaGeralAsync(DisputaPersonagens);
 
                 string resultados = string.Join(" | ", DisputaPersonagens.Resultados);
 

@@ -9,7 +9,7 @@
 
         public string HabilidadeNome
         {
-            get { return Habilidade.Name; }
+            get { return Habilidade.Nome; }
         }
     }
 }

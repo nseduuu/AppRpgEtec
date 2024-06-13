@@ -7,7 +7,7 @@ namespace AppRpgEtec.Services.PersonagemHabilidades
     {
         private readonly Request _request = null;
 
-        private const string _apiUrlBase = "https://rpgapi20241pam.azurewebsites.net/PersonagemHabilidade";
+        private const string _apiUrlBase = "https://rpgapi20241pam.azurewebsites.net/PersonagemHabilidades";
         private string _token;
 
         public PersonagemHabilidadeService(string token)

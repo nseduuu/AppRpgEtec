@@ -10,6 +10,5 @@ namespace AppRpgEtec.ViewModels
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
     }
 }

@@ -21,7 +21,7 @@ public partial class ListagemView : ContentPage
     protected override void OnAppearing()
     {
         base.OnAppearing();
-        _ = viewModel.ObterPersonagens();
+        _ = viewModel.ObterPesonagens();
     }
 
 }
